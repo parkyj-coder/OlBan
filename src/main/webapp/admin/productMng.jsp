@@ -14,10 +14,10 @@
     <style>
         /* 체크박스 스타일 우선 적용 */
         .admin-form .checkbox-label {
-            display: flex !important;
-            align-items: center !important;
-            color: var(--gray-700) !important;
-            font-weight: 500 !important;
+            display: flex ;
+            align-items: center ;
+            color: var(--gray-700) ;
+            font-weight: 500 ;
         }
         
         /* 이미지 업로드 컨테이너 스타일 */
@@ -89,27 +89,104 @@
             box-sizing: border-box;
         }
         
+        .additional-images-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+        
         .additional-image-item {
             position: relative;
-            border-radius: 8px;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            min-width: 120px;
+        }
+        
+        .additional-image-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .additional-image-preview {
+            position: relative;
             width: 100%;
-            height: 120px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
         }
         
         .additional-image-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .additional-image-overlay {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        
+        .additional-image-info {
+            margin-top: 8px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .image-name {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+        
+        .image-status {
+            display: block;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .image-status.uploaded {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .image-status.pending {
+            background: #fff3cd;
+            color: #856404;
         }
         
         .additional-image-remove {
@@ -349,6 +426,17 @@
             display: none;
         }
         
+        /* 모바일에서 텍스트 표시 */
+        @media (max-width: 768px) {
+            .desktop-text {
+                display: none;
+            }
+            
+            .mobile-text {
+                display: inline;
+            }
+        }
+        
         /* 데스크탑에서 카메라 버튼 숨기기 */
         .camera-btn {
             display: inline-block;
@@ -399,24 +487,24 @@
             }
             
             .upload-buttons {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .upload-action-buttons {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .additional-images-list {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 8px !important;
-                padding: 8px !important;
+                grid-template-columns: repeat(2, 1fr) ;
+                gap: 8px ;
+                padding: 8px ;
             }
             
             .additional-image-controls {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .modal-footer {
@@ -443,58 +531,126 @@
         /* 데스크탑에서 카메라 버튼 숨기기 */
         @media (min-width: 769px) {
             .camera-btn {
-                display: none !important;
+                display: none ;
             }
             
             /* 데스크탑에서 버튼 레이아웃 조정 */
             .upload-buttons {
-                grid-template-columns: 1fr !important;
+                grid-template-columns: 1fr ;
             }
             
             .additional-image-controls {
-                grid-template-columns: 1fr 1fr !important;
+                grid-template-columns: 1fr 1fr ;
             }
         }
         
-        .additional-image-item {
+        
+        /* 이미지 갤러리 스타일 */
+        .image-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+        
+        .gallery-image-item {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             background: white;
             border-radius: 8px;
-            padding: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
         
-        .additional-image-item:hover {
+        .gallery-image-item:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            border-color: #007bff;
         }
         
-        .additional-image-preview {
-            position: relative;
+        .gallery-image-item.selected {
+            border-color: #28a745;
+            background: #f8fff9;
         }
         
-        .additional-image-overlay {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4444;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
+        .gallery-image-preview {
+            width: 100%;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
+            background: #f8f9fa;
+            overflow: hidden;
         }
         
-        .additional-image-overlay:hover {
-            background: #cc0000;
+        .gallery-image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-image-item:hover .gallery-image-preview img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-image-info {
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .gallery-image-name {
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+        
+        .gallery-image-actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-image-item:hover .gallery-image-actions {
+            opacity: 1;
+        }
+        
+        .gallery-action-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .gallery-select-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .gallery-select-btn:hover {
+            background: #218838;
+        }
+        
+        .gallery-select-btn.selected {
+            background: #dc3545;
+        }
+        
+        .gallery-select-btn.selected:hover {
+            background: #c82333;
         }
         
         .additional-image-info {
@@ -566,29 +722,29 @@
         
         /* 이미지 제거 버튼 스타일 */
         .admin-btn-remove {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
-            color: white !important;
-            border: none !important;
-            padding: 8px 16px !important;
-            border-radius: 6px !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3) !important;
-            position: relative !important;
-            overflow: hidden !important;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52) ;
+            color: white ;
+            border: none ;
+            padding: 8px 16px ;
+            border-radius: 6px ;
+            font-size: 14px ;
+            font-weight: 500 ;
+            cursor: pointer ;
+            transition: all 0.3s ease ;
+            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3) ;
+            position: relative ;
+            overflow: hidden ;
         }
         
         .admin-btn-remove:hover {
-            background: linear-gradient(135deg, #ff5252, #e53935) !important;
-            transform: translateY(-1px) !important;
-            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4) !important;
+            background: linear-gradient(135deg, #ff5252, #e53935) ;
+            transform: translateY(-1px) ;
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4) ;
         }
         
         .admin-btn-remove:active {
-            transform: translateY(0) !important;
-            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3) !important;
+            transform: translateY(0) ;
+            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3) ;
         }
         
         .admin-btn-remove::before {
@@ -599,149 +755,143 @@
         
         /* 개별 이미지 제거 버튼 스타일 */
         .remove-image-btn {
-            background: linear-gradient(135deg, #ff4757, #ff3742) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 50% !important;
-            width: 24px !important;
-            height: 24px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            font-size: 14px !important;
-            font-weight: bold !important;
-            transition: all 0.2s ease !important;
-            box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3) !important;
+            background: linear-gradient(135deg, #ff4757, #ff3742) ;
+            color: white ;
+            border: none ;
+            border-radius: 50% ;
+            width: 24px ;
+            height: 24px ;
+            display: flex ;
+            align-items: center ;
+            justify-content: center ;
+            cursor: pointer ;
+            font-size: 14px ;
+            font-weight: bold ;
+            transition: all 0.2s ease ;
+            box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3) ;
         }
         
         .remove-image-btn:hover {
-            background: linear-gradient(135deg, #ff3742, #ff2f3a) !important;
-            transform: scale(1.1) !important;
-            box-shadow: 0 3px 6px rgba(255, 71, 87, 0.4) !important;
+            background: linear-gradient(135deg, #ff3742, #ff2f3a) ;
+            transform: scale(1.1) ;
+            box-shadow: 0 3px 6px rgba(255, 71, 87, 0.4) ;
         }
         
         .remove-image-btn:active {
-            transform: scale(0.95) !important;
+            transform: scale(0.95) ;
         }
         
         /* 업로드 버튼 그룹 스타일 개선 */
         .upload-buttons {
-            display: flex !important;
-            gap: 10px !important;
-            align-items: center !important;
-            flex-wrap: wrap !important;
+            display: flex ;
+            gap: 10px ;
+            align-items: center ;
+            flex-wrap: wrap ;
         }
         
         .upload-buttons .admin-btn {
-            flex: 1 !important;
-            min-width: 120px !important;
-            text-align: center !important;
-            min-height: 44px !important; /* 모바일 터치 최소 크기 */
-            padding: 12px 16px !important;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            min-height: 44px; /* 모바일 터치 최소 크기 */
+            padding: 12px 16px;
         }
         
         .upload-buttons .admin-btn-remove {
-            flex: 1 !important;
-            min-width: 140px !important;
-            min-height: 44px !important; /* 모바일 터치 최소 크기 */
+            flex: 1;
+            min-width: 140px;
+            min-height: 44px; /* 모바일 터치 최소 크기 */
         }
         
         /* 모바일 반응형 스타일 */
         @media (max-width: 768px) {
             .modal-content {
-                max-width: 95vw !important;
-                margin: 10px !important;
-                max-height: 95vh !important;
+                max-width: 95vw ;
+                margin: 10px ;
+                max-height: 95vh ;
             }
             
             .upload-buttons {
-                flex-direction: column !important;
-                gap: 8px !important;
+                flex-direction: column;
+                gap: 8px;
             }
             
             .upload-buttons .admin-btn {
-                width: 100% !important;
-                min-width: auto !important;
-                min-height: 48px !important; /* 모바일에서 더 큰 터치 영역 */
-                font-size: 16px !important; /* 모바일에서 더 큰 폰트 */
+                width: 100%;
+                min-width: auto;
+                min-height: 48px; /* 모바일에서 더 큰 터치 영역 */
+                font-size: 16px; /* 모바일에서 더 큰 폰트 */
             }
             
             .form-row {
-                flex-direction: column !important;
+                flex-direction: column;
             }
             
             .form-row .form-group {
-                width: 100% !important;
-                margin-bottom: 15px !important;
+                width: 100%;
+                margin-bottom: 15px;
             }
             
             .additional-image-controls {
-                flex-direction: column !important;
-                gap: 8px !important;
+                flex-direction: column;
+                gap: 8px;
             }
             
             /* 모바일 이미지 업로드 최적화 */
             .image-upload-container {
-                gap: 12px !important;
+                gap: 12px;
             }
             
             .image-preview {
-                min-height: 150px !important;
-                padding: 15px !important;
+                min-height: 150px;
+                padding: 15px;
             }
             
             .image-preview img {
-                max-width: 150px !important;
-                max-height: 150px !important;
+                max-width: 150px;
+                max-height: 150px;
             }
             
             .upload-buttons {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .upload-action-buttons {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
-            .upload-buttons .admin-btn {
-                width: 100% !important;
-                min-height: 48px !important;
-                font-size: 16px !important;
-                padding: 12px 16px !important;
-            }
             
             .additional-images-list {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
-                padding: 8px !important;
+                grid-template-columns: repeat(2, 1fr) ;
+                gap: 10px ;
+                padding: 8px ;
             }
             
             .additional-image-item {
-                min-width: auto !important;
+                min-width: auto ;
             }
             
             .additional-image-preview {
-                height: 100px !important;
+                height: 100px ;
             }
             
             .additional-image-preview img {
-                width: 100% !important;
-                height: 100% !important;
+                width: 100% ;
+                height: 100% ;
             }
             
             .additional-image-controls {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .additional-image-controls .admin-btn {
-                width: 100% !important;
-                min-height: 48px !important;
-                font-size: 16px !important;
-                padding: 12px 16px !important;
+                width: 100%;
+                min-height: 48px;
+                font-size: 16px;
+                padding: 12px 16px;
             }
             
             /* 상품 목록 테이블 모바일 최적화 */
@@ -920,131 +1070,131 @@
             
             /* 480px 이하 화면 이미지 업로드 최적화 */
             .image-preview {
-                min-height: 120px !important;
-                padding: 10px !important;
+                min-height: 120px ;
+                padding: 10px ;
             }
             
             .image-preview img {
-                max-width: 120px !important;
-                max-height: 120px !important;
+                max-width: 120px ;
+                max-height: 120px ;
             }
             
             .additional-images-list {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
-                padding: 10px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
+                padding: 10px ;
             }
             
             .additional-image-preview {
-                height: 80px !important;
+                height: 80px ;
             }
             
             .upload-buttons {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
             }
             
             .upload-action-buttons {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
             }
             
             .additional-image-controls {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr 1fr ;
+                gap: 8px ;
             }
             
             .upload-buttons {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
             }
             
             .upload-action-buttons {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
             }
             
             .additional-images-list {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
-                padding: 10px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
+                padding: 10px ;
             }
             
             .image-preview {
-                min-height: 120px !important;
-                padding: 10px !important;
+                min-height: 120px ;
+                padding: 10px ;
             }
             
             .image-preview img {
-                max-height: 100px !important;
+                max-height: 100px ;
             }
         }
         
         @media (max-width: 360px) {
             .additional-image-controls {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
+                grid-template-columns: 1fr ;
+                gap: 8px ;
             }
             
             .admin-btn {
-                font-size: 12px !important;
-                padding: 8px 10px !important;
+                font-size: 12px ;
+                padding: 8px 10px ;
             }
         }
-            cursor: pointer !important;
-            margin-bottom: 0 !important;
-            line-height: 1.5 !important;
-            width: fit-content !important;
-            max-width: none !important;
-            position: relative !important;
+            cursor: pointer ;
+            margin-bottom: 0 ;
+            line-height: 1.5 ;
+            width: fit-content ;
+            max-width: none ;
+            position: relative ;
         }
         
         .admin-form .checkbox-label input[type="checkbox"] {
-            margin-right: 8px !important;
-            transform: scale(1.3) !important;
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-            flex-shrink: 0 !important;
-            position: relative !important;
-            z-index: 1 !important;
+            margin-right: 8px ;
+            transform: scale(1.3) ;
+            margin-top: 0 ;
+            margin-bottom: 0 ;
+            flex-shrink: 0 ;
+            position: relative ;
+            z-index: 1 ;
         }
         
         .admin-form .checkbox-label span {
-            line-height: 1.5 !important;
-            white-space: nowrap !important;
-            flex-shrink: 0 !important;
-            position: relative !important;
-            z-index: 1 !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
+            line-height: 1.5 ;
+            white-space: nowrap ;
+            flex-shrink: 0 ;
+            position: relative ;
+            z-index: 1 ;
+            margin-left: 0 ;
+            margin-right: 0 ;
         }
         
         /* 체크박스가 있는 form-group 특별 처리 */
         .admin-form .form-group:has(.checkbox-label) {
-            display: flex !important;
-            justify-content: flex-start !important;
-            align-items: center !important;
+            display: flex ;
+            justify-content: flex-start ;
+            align-items: center ;
         }
         
         .admin-form .form-group .checkbox-label {
-            margin: 0 !important;
-            padding: 0 !important;
+            margin: 0 ;
+            padding: 0 ;
         }
         
         @media (max-width: 768px) {
             .admin-form .checkbox-label {
-                align-items: flex-start !important;
-                padding-top: var(--spacing-1) !important;
+                align-items: flex-start ;
+                padding-top: var(--spacing-1) ;
             }
             
             .admin-form .checkbox-label input[type="checkbox"] {
-                transform: scale(1.2) !important;
-                margin-top: 2px !important;
-                margin-right: 8px !important;
+                transform: scale(1.2) ;
+                margin-top: 2px ;
+                margin-right: 8px ;
             }
             
             .admin-form .checkbox-label span {
-                line-height: 1.4 !important;
+                line-height: 1.4 ;
             }
         }
     </style>
@@ -1290,8 +1440,8 @@
                                     <img id="previewImg" src="../img/products/default.png" alt="상품 이미지 미리보기">
                                 </div>
                                 <div class="image-upload-controls">
-                                    <input type="file" id="imageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;" capture="environment">
-                                    <input type="file" id="imageFileCamera" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;" capture="camera">
+                                <input type="file" id="imageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;">
+                                <input type="file" id="imageFileCamera" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;" capture="camera">
                                     <input type="text" id="productImage" name="image_url" placeholder="img/products/상품명.png" class="image-path-input">
                                     <div class="upload-buttons">
                                         <button type="button" class="admin-btn admin-btn-secondary" onclick="selectFromGallery()">
@@ -1300,6 +1450,10 @@
                                         </button>
                                         <button type="button" class="admin-btn admin-btn-secondary camera-btn" onclick="selectFromCamera()">
                                             📷 카메라로 촬영
+                                        </button>
+                                        <button type="button" class="admin-btn admin-btn-secondary" onclick="openImageGallery('main')">
+                                            <span class="desktop-text">🗂️ 서버 이미지</span>
+                                            <span class="mobile-text">🗂️ 서버 이미지</span>
                                         </button>
                                     </div>
                                     <div class="upload-action-buttons">
@@ -1328,7 +1482,7 @@
                                     <!-- 추가 이미지들이 여기에 동적으로 추가됩니다 -->
                                 </div>
                                 <div class="additional-image-controls">
-                                    <input type="file" id="additionalImageFile" accept="image/*" multiple style="display: none;" onchange="handleAdditionalImages(this)" capture="environment">
+                                    <input type="file" id="additionalImageFile" accept="image/*" multiple style="display: none;" onchange="handleAdditionalImages(this)">
                                     <input type="file" id="additionalImageFileCamera" accept="image/*" multiple style="display: none;" onchange="handleAdditionalImages(this)" capture="camera">
                                     <button type="button" class="admin-btn admin-btn-secondary" onclick="selectAdditionalFromGallery()">
                                         <span class="desktop-text">📁 파일 선택</span>
@@ -1337,11 +1491,21 @@
                                     <button type="button" class="admin-btn admin-btn-secondary camera-btn" onclick="selectAdditionalFromCamera()">
                                         📷 카메라로 촬영
                                     </button>
+                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="openImageGallery('additional')" style="background: #6c757d;">
+                                        <span class="desktop-text">🗂️ 서버 이미지</span>
+                                        <span class="mobile-text">🗂️ 서버 이미지</span>
+                                    </button>
                                     <button type="button" class="admin-btn admin-btn-primary" onclick="uploadAdditionalImages()" id="uploadAdditionalBtn" disabled>
                                         ⬆️ 추가 이미지 업로드
                                     </button>
                                     <button type="button" class="admin-btn admin-btn-remove" onclick="clearAllAdditionalImages()">
                                         모두 제거
+                                    </button>
+                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="testAdditionalImages()" style="background: #28a745;">
+                                        테스트 이미지
+                                    </button>
+                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="debugAdditionalImages()" style="background: #17a2b8;">
+                                        디버깅
                                     </button>
                                 </div>
                             </div>
@@ -1364,10 +1528,30 @@
                 <button class="modal-btn modal-btn-primary" onclick="saveProduct()">저장</button>
                 <button class="modal-btn modal-btn-secondary" onclick="closeProductModal()">취소</button>
             </div>
+    </div>
+</div>
+
+<!-- 이미지 갤러리 모달 -->
+<div id="imageGalleryModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 90%; max-height: 90%; overflow-y: auto;">
+        <div class="modal-header">
+            <h3>서버 이미지 갤러리</h3>
+            <span class="close" onclick="closeImageGallery()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div style="margin-bottom: 20px;">
+                <button onclick="refreshImageGallery()" class="btn btn-secondary">새로고침</button>
+                <button onclick="applySelectedImages()" class="btn btn-primary" style="margin-left: 10px;">선택한 이미지 적용</button>
+                <span id="imageCount" style="margin-left: 10px; color: #666;"></span>
+            </div>
+            <div id="imageGalleryGrid" class="image-gallery-grid">
+                <!-- 이미지들이 여기에 동적으로 로드됩니다 -->
+            </div>
         </div>
     </div>
-    
-    <script>
+</div>
+
+<script>
         // 상품 목록 로드 (전체 목록)
         function loadProducts() {
             // AJAX로 전체 상품 목록 가져오기
@@ -1413,8 +1597,302 @@
             document.getElementById('productModalTitle').textContent = '새 상품 추가';
             document.getElementById('productForm').reset();
             document.getElementById('productId').value = '';
+            
+            // 추가 이미지 배열 초기화
+            additionalImages = [];
+            renderAdditionalImages();
+            
+            // 이미지 미리보기 초기화
+            document.getElementById('previewImg').src = '../img/products/default.png';
+            
             document.getElementById('productModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
+        }
+        
+        // 테스트용 함수 - 추가 이미지 미리보기 테스트
+        function testAdditionalImages() {
+            console.log('테스트 이미지 추가 시작');
+            const testImages = [
+                {
+                    id: Date.now(),
+                    file: null,
+                    preview: '../img/products/default.png',
+                    url: 'default.png',
+                    uploaded: true
+                },
+                {
+                    id: Date.now() + 1,
+                    file: null,
+                    preview: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwN2JmZiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGVzdDwvdGV4dD48L3N2Zz4=',
+                    url: 'test.svg',
+                    uploaded: false
+                },
+                {
+                    id: Date.now() + 2,
+                    file: null,
+                    preview: 'nonexistent.jpg', // 존재하지 않는 이미지 테스트
+                    url: 'nonexistent.jpg',
+                    uploaded: true
+                }
+            ];
+            
+            additionalImages = testImages;
+            renderAdditionalImages();
+            console.log('테스트 이미지 추가 완료');
+        }
+        
+        // 추가 이미지 디버깅 함수
+        function debugAdditionalImages() {
+            console.log('=== 추가 이미지 디버깅 정보 ===');
+            console.log('추가 이미지 개수:', additionalImages.length);
+            additionalImages.forEach((img, index) => {
+                console.log(`이미지 ${index + 1}:`, {
+                    id: img.id,
+                    preview: img.preview,
+                    url: img.url,
+                    uploaded: img.uploaded,
+                    file: img.file ? img.file.name : '없음'
+                });
+            });
+            console.log('===============================');
+        }
+        
+        // 이미지 로드 에러 핸들링 함수
+        function handleImageLoadError(imgElement, originalSrc, imageId) {
+            console.error('❌ 이미지 로드 실패:', originalSrc);
+            
+            // 대체 경로들 시도
+            const alternatives = [
+                '../img/products/default.png',
+                'img/products/default.png',
+                '../img/products/' + originalSrc.split('/').pop(),
+                'img/products/' + originalSrc.split('/').pop()
+            ];
+            
+            let currentIndex = 0;
+            
+            function tryNextAlternative() {
+                if (currentIndex >= alternatives.length) {
+                    console.error('모든 대체 경로 실패, 기본 이미지로 설정');
+                    imgElement.src = '../img/products/default.png';
+                    imgElement.alt = '이미지를 불러올 수 없습니다';
+                    return;
+                }
+                
+                const altPath = alternatives[currentIndex];
+                console.log(`대체 경로 ${currentIndex + 1} 시도:`, altPath);
+                
+                const testImg = new Image();
+                testImg.onload = function() {
+                    console.log('✅ 대체 경로 성공:', altPath);
+                    imgElement.src = altPath;
+                };
+                testImg.onerror = function() {
+                    console.log('❌ 대체 경로 실패:', altPath);
+                    currentIndex++;
+                    tryNextAlternative();
+                };
+                testImg.src = altPath;
+            }
+            
+            tryNextAlternative();
+        }
+        
+        // 이미지 경로 확인 함수
+        function checkImagePath(imagePath) {
+            const img = new Image();
+            img.onload = function() {
+                console.log('✅ 이미지 로드 성공:', imagePath);
+            };
+            img.onerror = function() {
+                console.error('❌ 이미지 로드 실패:', imagePath);
+                // 대체 경로들 시도
+                const alternatives = [
+                    '../img/products/' + imagePath,
+                    'img/products/' + imagePath,
+                    '../' + imagePath,
+                    imagePath
+                ];
+                
+                alternatives.forEach((alt, index) => {
+                    const testImg = new Image();
+                    testImg.onload = function() {
+                        console.log(`✅ 대체 경로 ${index + 1} 성공:`, alt);
+                    };
+                    testImg.onerror = function() {
+                        console.log(`❌ 대체 경로 ${index + 1} 실패:`, alt);
+                    };
+                    testImg.src = alt;
+                });
+            };
+            img.src = imagePath;
+        }
+        
+        // 이미지 갤러리 관련 변수
+        let currentImageType = ''; // 'main' 또는 'additional'
+        let selectedGalleryImages = new Set();
+        
+        // 이미지 갤러리 열기
+        function openImageGallery(type) {
+            currentImageType = type;
+            selectedGalleryImages.clear();
+            loadImageGallery();
+            document.getElementById('imageGalleryModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 이미지 갤러리 닫기
+        function closeImageGallery() {
+            document.getElementById('imageGalleryModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            selectedGalleryImages.clear();
+        }
+        
+        // 이미지 갤러리 로드
+        async function loadImageGallery() {
+            try {
+                const response = await fetch('getImageList.jsp');
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderImageGallery(data.images);
+                    document.getElementById('imageCount').textContent = `총 ${data.total}개의 이미지`;
+                } else {
+                    console.error('이미지 목록 로드 실패:', data.error);
+                    alert('이미지 목록을 불러오는데 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('이미지 갤러리 로드 오류:', error);
+                alert('이미지 목록을 불러오는데 실패했습니다.');
+            }
+        }
+        
+        // 이미지 갤러리 새로고침
+        function refreshImageGallery() {
+            loadImageGallery();
+        }
+        
+        // 이미지 갤러리 렌더링
+        function renderImageGallery(images) {
+            const container = document.getElementById('imageGalleryGrid');
+            container.innerHTML = '';
+            
+            if (images.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">저장된 이미지가 없습니다.</p>';
+                return;
+            }
+            
+            images.forEach((imageName, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'gallery-image-item';
+                imageDiv.dataset.imageName = imageName;
+                
+                const imageUrl = '../img/products/' + imageName;
+                
+                imageDiv.innerHTML = `
+                    <div class="gallery-image-preview">
+                        <img src="${imageUrl}" alt="${imageName}" 
+                             onerror="this.src='../img/products/default.png'">
+                    </div>
+                    <div class="gallery-image-info">
+                        <div class="gallery-image-name">${imageName}</div>
+                    </div>
+                    <div class="gallery-image-actions">
+                        <button class="gallery-action-btn gallery-select-btn" 
+                                onclick="toggleImageSelection('${imageName}')" 
+                                title="선택/해제">✓</button>
+                    </div>
+                `;
+                
+                container.appendChild(imageDiv);
+            });
+        }
+        
+        // 이미지 선택 토글
+        function toggleImageSelection(imageName) {
+            const imageItem = document.querySelector(`[data-image-name="${imageName}"]`);
+            const selectBtn = imageItem.querySelector('.gallery-select-btn');
+            
+            if (selectedGalleryImages.has(imageName)) {
+                // 선택 해제
+                selectedGalleryImages.delete(imageName);
+                imageItem.classList.remove('selected');
+                selectBtn.textContent = '✓';
+                selectBtn.classList.remove('selected');
+            } else {
+                // 선택 추가
+                if (currentImageType === 'main') {
+                    // 메인 이미지는 1개만 선택 가능
+                    selectedGalleryImages.clear();
+                    // 모든 선택 해제
+                    document.querySelectorAll('.gallery-image-item').forEach(item => {
+                        item.classList.remove('selected');
+                        item.querySelector('.gallery-select-btn').classList.remove('selected');
+                    });
+                } else if (currentImageType === 'additional') {
+                    // 추가 이미지는 최대 5개
+                    if (selectedGalleryImages.size >= 5) {
+                        alert('최대 5개의 이미지만 선택할 수 있습니다.');
+                        return;
+                    }
+                }
+                
+                selectedGalleryImages.add(imageName);
+                imageItem.classList.add('selected');
+                selectBtn.textContent = '✕';
+                selectBtn.classList.add('selected');
+            }
+        }
+        
+        // 선택된 이미지 적용
+        function applySelectedImages() {
+            if (selectedGalleryImages.size === 0) {
+                alert('이미지를 선택해주세요.');
+                return;
+            }
+            
+            if (currentImageType === 'main') {
+                // 메인 이미지 적용
+                const imageName = Array.from(selectedGalleryImages)[0];
+                document.getElementById('productImage').value = 'img/products/' + imageName;
+                document.getElementById('previewImg').src = '../img/products/' + imageName;
+                closeImageGallery();
+            } else if (currentImageType === 'additional') {
+                // 추가 이미지 적용
+                const imageNames = Array.from(selectedGalleryImages);
+                
+                // 최대 개수 확인
+                if (additionalImages.length + imageNames.length > maxAdditionalImages) {
+                    alert(`최대 ${maxAdditionalImages}개의 추가 이미지만 업로드할 수 있습니다.`);
+                    return;
+                }
+                
+                imageNames.forEach((imageName, index) => {
+                    // 이미지 경로 정규화
+                    let imagePath = imageName;
+                    if (imagePath && !imagePath.includes('img/products/')) {
+                        imagePath = '../img/products/' + imagePath;
+                    }
+                    
+                    const imageData = {
+                        id: Date.now() + index,
+                        file: null,
+                        preview: imagePath,
+                        url: imageName, // 원본 파일명 유지
+                        uploaded: true // 서버에 이미 존재
+                    };
+                    
+                    console.log('갤러리에서 선택한 이미지:', {
+                        원본파일명: imageName,
+                        처리된경로: imagePath
+                    });
+                    
+                    additionalImages.push(imageData);
+                });
+                
+                renderAdditionalImages();
+                closeImageGallery();
+            }
         }
         
         // 상품 수정
@@ -1473,10 +1951,94 @@
                         productDescriptionField.value = product.description || '';
                         productPriceField.value = product.price;
                         productStockField.value = product.stock_quantity;
+                        // 카테고리 먼저 설정
                         productCategoryField.value = product.category_id || '';
-                        productSubcategoryField.value = product.subcategory_id || '';
+                        
+                        // 하위 카테고리 업데이트 (옵션 생성) - 기존 값 보존
+                        const savedSubcategoryValue = product.subcategory_id || '';
+                        updateSubcategory();
+                        productSubcategoryField.value = savedSubcategoryValue;
+                        
                         productImageField.value = product.image_url || '';
-                        productActiveField.checked = product.is_active;
+                        productActiveField.checked = product.is_active === true || product.is_active === 'true';
+                        
+                        // 이미지 미리보기 설정
+                        const previewImg = document.getElementById('previewImg');
+                        if (product.image_url && product.image_url !== 'img/products/default.png') {
+                            previewImg.src = '../' + product.image_url;
+                        } else {
+                            previewImg.src = '../img/products/default.png';
+                        }
+                        
+                        // 추가 이미지 처리
+                        console.log('원본 detail_images:', product.detail_images);
+                        if (product.detail_images && product.detail_images !== 'null' && product.detail_images !== null) {
+                            try {
+                                // JSON 문자열인지 확인
+                                let detailImages;
+                                if (typeof product.detail_images === 'string') {
+                                    detailImages = JSON.parse(product.detail_images);
+                                } else {
+                                    detailImages = product.detail_images;
+                                }
+                                
+                                console.log('파싱된 추가 이미지 데이터:', detailImages);
+                                if (Array.isArray(detailImages) && detailImages.length > 0) {
+                                    additionalImages = detailImages.map((img, index) => {
+                                        // 이미지 경로 정규화
+                                        let imagePath = img;
+                                        
+                                        // 경로 정규화 로직 개선
+                                        if (imagePath) {
+                                            // 이미 완전한 경로인지 확인
+                                            if (!imagePath.startsWith('http') && !imagePath.startsWith('/') && !imagePath.startsWith('../') && !imagePath.startsWith('data:')) {
+                                                // 파일명만 있는 경우
+                                                if (!imagePath.includes('img/products/')) {
+                                                    imagePath = '../img/products/' + imagePath;
+                                                }
+                                            }
+                                        } else {
+                                            imagePath = '../img/products/default.png';
+                                        }
+                                        
+                                        console.log(`이미지 ${index + 1} 경로 처리:`, {
+                                            원본: img,
+                                            처리됨: imagePath
+                                        });
+                                        
+                                        return {
+                                            id: Date.now() + index,
+                                            file: null, // 기존 이미지는 파일 객체가 없음
+                                            preview: imagePath,
+                                            url: img, // 원본 파일명 유지
+                                            uploaded: true // 이미 업로드된 상태
+                                        };
+                                    });
+                                    console.log('생성된 추가 이미지 배열:', additionalImages);
+                                    
+                                    // 각 이미지 경로 테스트
+                                    additionalImages.forEach((img, index) => {
+                                        console.log(`이미지 ${index + 1} 경로 테스트:`, img.preview);
+                                        checkImagePath(img.preview);
+                                    });
+                                    
+                                    renderAdditionalImages();
+                                } else {
+                                    console.log('추가 이미지 배열이 비어있음');
+                                    additionalImages = [];
+                                    renderAdditionalImages();
+                                }
+                            } catch (e) {
+                                console.error('추가 이미지 파싱 오류:', e);
+                                console.error('파싱할 데이터:', product.detail_images);
+                                additionalImages = [];
+                                renderAdditionalImages();
+                            }
+                        } else {
+                            console.log('추가 이미지 데이터 없음');
+                            additionalImages = [];
+                            renderAdditionalImages();
+                        }
                         
                         console.log('모달 표시 중...');
                         modal.style.display = 'block';
@@ -1709,6 +2271,9 @@
             const subcategorySelect = document.getElementById('productSubcategory');
             const selectedCategory = categorySelect.value;
             
+            // 현재 선택된 하위 카테고리 값 보존
+            const currentSubcategoryValue = subcategorySelect.value;
+            
             // 하위 카테고리 초기화
             subcategorySelect.innerHTML = '<option value="">하위분류 선택</option>';
             
@@ -1723,24 +2288,37 @@
                     optionElement.textContent = option.text;
                     subcategorySelect.appendChild(optionElement);
                 });
+                
+                // 기존 값이 있으면 복원
+                if (currentSubcategoryValue && currentSubcategoryValue !== '') {
+                    subcategorySelect.value = currentSubcategoryValue;
+                }
             }
         }
         
         // 이미지 선택 함수들 (카메라/앨범 구분)
         function selectFromGallery() {
-            document.getElementById('imageFile').click();
+            // 앨범 선택 - capture 속성 없음
+            const fileInput = document.getElementById('imageFile');
+            fileInput.click();
         }
         
         function selectFromCamera() {
-            document.getElementById('imageFileCamera').click();
+            // 카메라 선택 - capture="camera"
+            const fileInput = document.getElementById('imageFileCamera');
+            fileInput.click();
         }
         
         function selectAdditionalFromGallery() {
-            document.getElementById('additionalImageFile').click();
+            // 앨범 선택 - capture 속성 없음
+            const fileInput = document.getElementById('additionalImageFile');
+            fileInput.click();
         }
         
         function selectAdditionalFromCamera() {
-            document.getElementById('additionalImageFileCamera').click();
+            // 카메라 선택 - capture="camera"
+            const fileInput = document.getElementById('additionalImageFileCamera');
+            fileInput.click();
         }
         
         // 메인 이미지 업로드 함수
@@ -1812,13 +2390,29 @@
                     progressFill.style.width = '100%';
                     uploadStatus.textContent = '메인 이미지 업로드 완료!';
                     
-                    alert('메인 이미지가 성공적으로 업로드되었습니다!');
+                    console.log('업로드 성공:', data);
                     
-                    // 2초 후 진행률 숨기기
-                    setTimeout(() => {
-                        progressDiv.style.display = 'none';
-                        uploadBtn.disabled = false;
-                    }, 2000);
+                    // 파일이 실제로 존재하는지 확인
+                    const testImg = new Image();
+                    testImg.onload = function() {
+                        alert('메인 이미지가 성공적으로 업로드되었습니다!');
+                        
+                        // 2초 후 진행률 숨기기
+                        setTimeout(() => {
+                            progressDiv.style.display = 'none';
+                            uploadBtn.disabled = false;
+                        }, 2000);
+                    };
+                    testImg.onerror = function() {
+                        console.error('업로드된 이미지를 불러올 수 없습니다:', data.url);
+                        alert('이미지 업로드는 완료되었지만 파일을 확인할 수 없습니다. 서버 로그를 확인해주세요.');
+                        
+                        setTimeout(() => {
+                            progressDiv.style.display = 'none';
+                            uploadBtn.disabled = false;
+                        }, 2000);
+                    };
+                    testImg.src = '../img/products/' + data.url;
                     
                 } else {
                     throw new Error(data.error || '메인 이미지 업로드 실패');
@@ -1886,13 +2480,17 @@
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         try {
+                            // 이미지 경로 정규화
+                            let previewPath = e.target.result;
+                            console.log('추가 이미지 미리보기 경로:', previewPath);
+                            
                             const imageData = {
                                 id: Date.now() + Math.random(),
                                 file: file,
-                                preview: e.target.result,
-                            uploaded: false,
-                            url: null
-                        };
+                                preview: previewPath,
+                                uploaded: false,
+                                url: null
+                            };
                         
                             additionalImages.push(imageData);
                             renderAdditionalImages();
@@ -1926,21 +2524,59 @@
         
         // 추가 이미지 렌더링 함수
         function renderAdditionalImages() {
+            console.log('renderAdditionalImages 호출됨, 이미지 개수:', additionalImages.length);
             const container = document.getElementById('additionalImagesList');
+            
+            if (!container) {
+                console.error('additionalImagesList 컨테이너를 찾을 수 없습니다!');
+                return;
+            }
+            
             container.innerHTML = '';
             
+            if (additionalImages.length === 0) {
+                console.log('추가 이미지가 없어서 컨테이너를 비웠습니다.');
+                return;
+            }
+            
             additionalImages.forEach((image, index) => {
+                console.log(`이미지 ${index + 1} 렌더링:`, {
+                    id: image.id,
+                    preview: image.preview,
+                    uploaded: image.uploaded,
+                    fileName: image.file ? image.file.name : '기존 이미지'
+                });
+                
                 const imageDiv = document.createElement('div');
                 imageDiv.className = 'additional-image-item';
+                
+                // 이미지 경로 확인 및 수정
+                let imageSrc = image.preview;
+                if (!imageSrc) {
+                    console.warn(`이미지 ${index + 1}의 preview가 없습니다.`);
+                    imageSrc = '../img/products/default.png';
+                }
+                
+                // 이미지 경로 정규화
+                if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('/') && !imageSrc.startsWith('../') && !imageSrc.startsWith('data:')) {
+                    // 파일명만 있는 경우 경로 추가
+                    if (!imageSrc.includes('img/products/')) {
+                        imageSrc = '../img/products/' + imageSrc;
+                    }
+                }
+                
+                // 이미지 경로 디버깅
+                console.log(`이미지 ${index + 1} 렌더링 경로:`, imageSrc);
+                
                 imageDiv.innerHTML = `
                     <div class="additional-image-preview">
-                        <img src="${image.preview}" alt="추가 이미지 ${index + 1}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
-                        <div class="additional-image-overlay">
-                            <button type="button" class="remove-image-btn" onclick="removeAdditionalImage(${image.id})" title="이미지 제거">×</button>
-                        </div>
+                        <img src="${imageSrc}" alt="추가 이미지 ${index + 1}" 
+                             onload="console.log('✅ 이미지 로드 성공:', this.src)"
+                             onerror="handleImageLoadError(this, '${imageSrc}', ${image.id})">
+                        <div class="additional-image-overlay" onclick="removeAdditionalImage(${image.id})" title="이미지 제거">×</div>
                     </div>
                     <div class="additional-image-info">
-                        <span class="image-name">${image.file.name}</span>
+                        <span class="image-name">${image.file ? image.file.name : '기존 이미지'}</span>
                         <span class="image-status ${image.uploaded ? 'uploaded' : 'pending'}">
                             ${image.uploaded ? '업로드됨' : '대기중'}
                         </span>
@@ -1948,6 +2584,8 @@
                 `;
                 container.appendChild(imageDiv);
             });
+            
+            console.log('추가 이미지 렌더링 완료');
         }
         
         // 추가 이미지 제거 함수

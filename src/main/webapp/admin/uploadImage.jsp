@@ -20,18 +20,18 @@
         // 업로드 디렉토리 설정
         String realPath = application.getRealPath("/");
         String webServerDir = realPath + "img/products/";
-        String projectDir = realPath.substring(0, realPath.indexOf(".metadata")) + "OlBan\\src\\main\\webapp\\img\\products\\";
         
         File webServerPath = new File(webServerDir);
-        File projectPath = new File(projectDir);
         
         // 디렉토리가 없으면 생성
         if (!webServerPath.exists()) {
-            webServerPath.mkdirs();
+            boolean created = webServerPath.mkdirs();
+            System.out.println("업로드 디렉토리 생성: " + webServerDir + " - " + (created ? "성공" : "실패"));
         }
-        if (!projectPath.exists()) {
-            projectPath.mkdirs();
-        }
+        
+        System.out.println("업로드 경로: " + webServerPath.getAbsolutePath());
+        System.out.println("디렉토리 존재: " + webServerPath.exists());
+        System.out.println("디렉토리 쓰기 권한: " + webServerPath.canWrite());
         
         // multipart/form-data 체크
         String contentType = request.getContentType();
@@ -60,12 +60,10 @@
                 String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String uniqueFileName = "product_" + timestamp + extension;
                 File webServerFile = new File(webServerPath, uniqueFileName);
-                File projectFile = new File(projectPath, uniqueFileName);
                 
-                // 파일 저장 (두 곳에 모두 저장)
+                // 파일 저장 (웹서버 경로에만 저장)
                 try (InputStream input = part.getInputStream();
-                     FileOutputStream webServerOutput = new FileOutputStream(webServerFile);
-                     FileOutputStream projectOutput = new FileOutputStream(projectFile)) {
+                     FileOutputStream webServerOutput = new FileOutputStream(webServerFile)) {
                     
                     byte[] buffer = new byte[8192]; // 버퍼 크기 증가
                     int bytesRead;
@@ -73,16 +71,21 @@
                     
                     while ((bytesRead = input.read(buffer)) != -1) {
                         webServerOutput.write(buffer, 0, bytesRead);
-                        projectOutput.write(buffer, 0, bytesRead);
                         totalBytesRead += bytesRead;
                     }
                     
                     // 모바일에서 파일 크기가 0인 경우 재검증
                     if (totalBytesRead == 0) {
                         webServerFile.delete();
-                        projectFile.delete();
                         response.setStatus(400);
                         out.print("{\"error\": \"업로드된 파일이 비어있습니다.\"}");
+                        return;
+                    }
+                    
+                    // 파일 저장 확인
+                    if (!webServerFile.exists() || webServerFile.length() == 0) {
+                        response.setStatus(500);
+                        out.print("{\"error\": \"파일 저장에 실패했습니다.\"}");
                         return;
                     }
                 }
@@ -93,10 +96,9 @@
                 System.out.println("=== 이미지 업로드 성공 ===");
                 System.out.println("원본 파일명: " + originalFileName);
                 System.out.println("저장된 파일명: " + uniqueFileName);
-                System.out.println("웹 서버 경로: " + webServerFile.getAbsolutePath());
-                System.out.println("프로젝트 경로: " + projectFile.getAbsolutePath());
-                System.out.println("웹 서버 파일 크기: " + webServerFile.length() + " bytes");
-                System.out.println("프로젝트 파일 크기: " + projectFile.length() + " bytes");
+                System.out.println("저장 경로: " + webServerFile.getAbsolutePath());
+                System.out.println("파일 크기: " + webServerFile.length() + " bytes");
+                System.out.println("파일 존재: " + webServerFile.exists());
                 System.out.println("===============================");
                 
                 break; // 첫 번째 파일만 처리

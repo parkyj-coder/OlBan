@@ -31,10 +31,10 @@
             
             // 상품 정보 조회 (카테고리 정보 및 detail_images 포함)
             String sql = "SELECT p.id, p.name, p.description, p.price, p.image_url, p.stock_quantity, " +
-                        "p.subcategory_id, c.name as category_name, p.detail_images " +
+                        "p.category_id, p.subcategory_id, c.name as category_name, p.detail_images, p.is_active " +
                         "FROM products p " +
                         "LEFT JOIN categories c ON p.category_id = c.id " +
-                        "WHERE p.id = ? AND p.is_active = 1";
+                        "WHERE p.id = ?";
             
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, productId);
@@ -46,9 +46,11 @@
                 int price = rs.getInt("price");
                 String imageUrl = rs.getString("image_url");
                 int stockQuantity = rs.getInt("stock_quantity");
+                int categoryId = rs.getInt("category_id");
                 int subcategoryId = rs.getInt("subcategory_id");
                 String categoryName = rs.getString("category_name");
                 String detailImagesJson = rs.getString("detail_images");
+                boolean isActive = rs.getBoolean("is_active");
                 
 
                 
@@ -106,9 +108,16 @@
                 json.append("\"price\":").append(price).append(",");
                 json.append("\"image_url\":\"").append(imageUrl.replace("\"", "\\\"")).append("\",");
                 json.append("\"stock_quantity\":").append(stockQuantity).append(",");
+                json.append("\"category_id\":").append(categoryId).append(",");
+                json.append("\"subcategory_id\":").append(subcategoryId).append(",");
                 json.append("\"category_name\":\"").append((categoryName != null ? categoryName : "기본").replace("\"", "\\\"")).append("\",");
                 json.append("\"subcategory_name\":\"").append(subcategoryName.replace("\"", "\\\"")).append("\",");
-                json.append("\"detail_images\":").append(detailImagesJson != null ? detailImagesJson : "null");
+                json.append("\"is_active\":").append(isActive).append(",");
+                if (detailImagesJson != null && !detailImagesJson.trim().isEmpty()) {
+                    json.append("\"detail_images\":\"").append(detailImagesJson.replace("\"", "\\\"")).append("\"");
+                } else {
+                    json.append("\"detail_images\":null");
+                }
                 json.append("}");
                 
 
