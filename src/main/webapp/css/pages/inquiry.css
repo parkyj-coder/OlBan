@@ -1,0 +1,209 @@
+/* 문의사항 페이지 스타일 - 깔끔한 미니멀 디자인 */
+.inquiry-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+}
+
+.inquiry-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.inquiry-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.inquiry-header p {
+    color: var(--gray-600);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.inquiry-form {
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 2.5rem;
+    border: 1px solid var(--gray-200);
+}
+
+.inquiry-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.inquiry-form-group label {
+    display: block;
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.inquiry-form-group input,
+.inquiry-form-group select,
+.inquiry-form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: var(--white);
+    font-family: var(--font-family);
+}
+
+.inquiry-form-group input:focus,
+.inquiry-form-group select:focus,
+.inquiry-form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.inquiry-form-group input::placeholder,
+.inquiry-form-group textarea::placeholder {
+    color: var(--gray-400);
+}
+
+.inquiry-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.required {
+    color: var(--error);
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.contact-info {
+    background: var(--gray-50);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    margin-top: 3rem;
+    border: 1px solid var(--gray-200);
+}
+
+.contact-info h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: 0.75rem;
+    border: 1px solid var(--gray-200);
+    transition: all 0.2s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--primary-color);
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.contact-details h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.contact-details p {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .inquiry-container {
+        margin: var(--spacing-8) auto;
+        padding: 0 var(--spacing-4);
+    }
+    
+    .inquiry-header h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .inquiry-header p {
+        font-size: var(--font-size-base);
+    }
+    
+    .inquiry-form {
+        padding: var(--spacing-8);
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .inquiry-header h1 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .inquiry-form {
+        padding: var(--spacing-6);
+    }
+    
+    .contact-info {
+        padding: var(--spacing-6);
+    }
+}
