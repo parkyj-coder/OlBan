@@ -1509,4 +1509,294 @@
     .action-btn span:last-child {
         font-size: var(--font-size-sm);
     }
+}
+
+/* 모바일 버튼 최적화 */
+@media (max-width: 768px) {
+    /* 데스크탑 텍스트 숨기기 */
+    .desktop-text {
+        display: none;
+    }
+    
+    /* 모바일 텍스트 표시 */
+    .mobile-text {
+        display: inline;
+    }
+    
+    /* 추가 이미지 버튼 그룹 - 가로 배치 강화 */
+    .additional-action-buttons {
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important; /* 가로 배치 강제 */
+        overflow-x: auto !important; /* 가로 스크롤 허용 */
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important; /* iOS 부드러운 스크롤 */
+    }
+    
+    /* 모바일에서 버튼 크기 조정 - 가로 배치에 최적화 */
+    .admin-btn {
+        font-size: 13px !important;
+        padding: 8px 10px !important;
+        min-width: 80px !important;
+        flex: 0 0 auto !important; /* 크기 고정으로 가로 배치 유지 */
+        white-space: nowrap !important; /* 텍스트 줄바꿈 방지 */
+        text-align: center !important;
+    }
+    
+    /* 업로드 버튼은 조금 더 크게 */
+    .admin-btn-primary {
+        min-width: 100px !important;
+        font-weight: 600 !important;
+    }
+    
+    /* 제거 버튼은 작게 */
+    .admin-btn-remove {
+        min-width: 70px !important;
+        font-size: 12px !important;
+    }
+    
+    /* 카메라 버튼 강조 */
+    .camera-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border: none !important;
+        min-width: 90px !important;
+    }
+    
+    .camera-btn:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+    }
+    
+    /* 메인 이미지 업로드 버튼들 - 가로 배치 */
+    .image-upload-controls .upload-buttons {
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .image-upload-controls .upload-action-buttons {
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* 추가 이미지 컨트롤 영역 스타일 */
+    .additional-image-controls {
+        margin-top: 12px !important;
+    }
+    
+    .additional-image-controls .additional-action-buttons {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* 추가 이미지 섹션 제목 스타일 */
+    .image-section-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: #333;
+    }
+    
+    /* 추가 이미지 리스트 영역 */
+    .additional-images-list {
+        min-height: 60px !important;
+        border: 2px dashed #ddd !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        margin-bottom: 12px !important;
+        background-color: #fafafa !important;
+    }
+    
+    .additional-images-list:empty::before {
+        content: "추가 이미지를 선택해주세요" !important;
+        color: #999 !important;
+        font-size: 14px !important;
+        display: block !important;
+        text-align: center !important;
+        padding: 20px 0 !important;
+    }
+}
+
+/* 데스크탑에서는 모바일 텍스트 숨기기 */
+@media (min-width: 769px) {
+    .mobile-text {
+        display: none;
+    }
+    
+    .desktop-text {
+        display: inline;
+    }
+    
+    .additional-action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .image-upload-controls .upload-buttons,
+    .image-upload-controls .upload-action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}
+
+/* 통합 이미지 업로드 스타일 */
+.unified-image-container {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.unified-image-container:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.unified-image-preview-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    min-height: 80px;
+}
+
+.unified-image-preview-list:empty::before {
+    content: "📸 이미지를 선택해주세요 (최대 6개)";
+    color: #999;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    text-align: center;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.unified-image-preview-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.unified-image-preview-item:hover {
+    transform: scale(1.05);
+}
+
+.unified-image-preview-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+}
+
+.unified-image-preview-item .remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(255,0,0,0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unified-image-preview-item .main-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    background: #007bff;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.unified-action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 통합 이미지 업로드 모바일 최적화 */
+@media (max-width: 768px) {
+    .unified-image-container {
+        padding: 15px;
+    }
+    
+    .unified-image-preview-list {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .unified-image-preview-item img {
+        height: 100px;
+    }
+    
+    .unified-action-buttons {
+        display: flex !important;
+        gap: 6px !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
+        justify-content: flex-start !important;
+    }
+    
+    .unified-action-buttons .admin-btn {
+        font-size: 13px !important;
+        padding: 8px 10px !important;
+        min-width: 80px !important;
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+    }
+    
+    .unified-action-buttons .admin-btn-primary {
+        min-width: 100px !important;
+        font-weight: 600 !important;
+    }
+    
+    .unified-action-buttons .admin-btn-remove {
+        min-width: 70px !important;
+        font-size: 12px !important;
+    }
+    
+    .unified-action-buttons .camera-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border: none !important;
+        min-width: 90px !important;
+    }
+    
+    .unified-action-buttons .camera-btn:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+    }
 } 

@@ -202,7 +202,12 @@
                             if (imageUrl == null || imageUrl.trim().isEmpty()) {
                                 imageUrl = "img/products/default.png";
                             } else {
-                                imageUrl = "img/products/" + imageUrl;
+                                // 파일명만 추출하여 경로 구성
+                                String fileName = imageUrl;
+                                if (imageUrl.indexOf("/") != -1) {
+                                    fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+                                }
+                                imageUrl = "img/products/" + fileName;
                             }
                     %>
                     <div class="product-card" data-product-id="<%= productId %>">

@@ -1432,82 +1432,54 @@
                     <div class="form-section">
                         <h4 class="section-title">🖼️ 이미지 관리</h4>
                         
-                        <!-- 메인 이미지 -->
+                        <!-- 통합 이미지 업로드 -->
                         <div class="image-section">
-                            <h5 class="image-section-title">📷 메인 이미지</h5>
-                            <div class="image-upload-container">
-                                <div class="image-preview" id="imagePreview">
-                                    <img id="previewImg" src="../img/products/default.png" alt="상품 이미지 미리보기">
+                            <h5 class="image-section-title">
+                                <span class="desktop-text">📸 상품 이미지 (최대 6개)</span>
+                                <span class="mobile-text">📸 상품 이미지</span>
+                            </h5>
+                            <div class="unified-image-container">
+                                <!-- 이미지 미리보기 영역 -->
+                                <div id="unifiedImagePreviewList" class="unified-image-preview-list">
+                                    <!-- 선택된 이미지들이 여기에 동적으로 추가됩니다 -->
                                 </div>
-                                <div class="image-upload-controls">
-                                <input type="file" id="imageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;">
-                                <input type="file" id="imageFileCamera" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;" capture="camera">
-                                    <input type="text" id="productImage" name="image_url" placeholder="img/products/상품명.png" class="image-path-input">
-                                    <div class="upload-buttons">
-                                        <button type="button" class="admin-btn admin-btn-secondary" onclick="selectFromGallery()">
+                                
+                                <!-- 업로드 컨트롤 -->
+                                <div class="unified-image-controls">
+                                    <input type="file" id="unifiedImageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" multiple style="display: none;" onchange="handleUnifiedImages(this)">
+                                    <input type="file" id="unifiedImageFileCamera" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" multiple style="display: none;" onchange="handleUnifiedImages(this)" capture="camera">
+                                    
+                                    <!-- 통합 액션 버튼들 -->
+                                    <div class="unified-action-buttons">
+                                        <button type="button" class="admin-btn admin-btn-secondary" onclick="selectUnifiedFromGallery()">
                                             <span class="desktop-text">📁 파일 선택</span>
-                                            <span class="mobile-text">📁 앨범에서 선택</span>
+                                            <span class="mobile-text">📁 앨범</span>
                                         </button>
-                                        <button type="button" class="admin-btn admin-btn-secondary camera-btn" onclick="selectFromCamera()">
-                                            📷 카메라로 촬영
+                                        <button type="button" class="admin-btn admin-btn-secondary camera-btn" onclick="selectUnifiedFromCamera()">
+                                            <span class="desktop-text">📷 카메라로 촬영</span>
+                                            <span class="mobile-text">📷 촬영</span>
                                         </button>
-                                        <button type="button" class="admin-btn admin-btn-secondary" onclick="openImageGallery('main')">
-                                            <span class="desktop-text">🗂️ 서버 이미지</span>
-                                            <span class="mobile-text">🗂️ 서버 이미지</span>
+                                        <button type="button" class="admin-btn admin-btn-primary" onclick="uploadUnifiedImages()" id="uploadUnifiedBtn" disabled>
+                                            <span class="desktop-text">⬆️ 이미지 업로드</span>
+                                            <span class="mobile-text">⬆️ 업로드</span>
                                         </button>
-                                    </div>
-                                    <div class="upload-action-buttons">
-                                        <button type="button" class="admin-btn admin-btn-primary" onclick="uploadMainImage()" id="uploadMainBtn" disabled>
-                                            ⬆️ 메인 이미지 업로드
-                                        </button>
-                                        <button type="button" class="admin-btn admin-btn-remove" onclick="clearImage()">
-                                            제거
+                                        <button type="button" class="admin-btn admin-btn-remove" onclick="clearAllUnifiedImages()">
+                                            <span class="desktop-text">모두 제거</span>
+                                            <span class="mobile-text">🗑️</span>
                                         </button>
                                     </div>
-                                    <div id="uploadProgress" style="display: none; margin-top: 10px;">
+                                    
+                                    <!-- 업로드 진행률 -->
+                                    <div id="unifiedUploadProgress" style="display: none; margin-top: 10px;">
                                         <div class="progress-bar">
-                                            <div class="progress-fill" id="progressFill"></div>
+                                            <div class="progress-fill" id="unifiedProgressFill"></div>
                                         </div>
-                                        <div id="uploadStatus">업로드 중...</div>
+                                        <div id="unifiedUploadStatus">업로드 중...</div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 추가 이미지 -->
-                        <div class="image-section">
-                            <h5 class="image-section-title">🖼️ 추가 이미지 (최대 5개)</h5>
-                            <div class="additional-images-container">
-                                <div id="additionalImagesList" class="additional-images-list">
-                                    <!-- 추가 이미지들이 여기에 동적으로 추가됩니다 -->
-                                </div>
-                                <div class="additional-image-controls">
-                                    <input type="file" id="additionalImageFile" accept="image/*" multiple style="display: none;" onchange="handleAdditionalImages(this)">
-                                    <input type="file" id="additionalImageFileCamera" accept="image/*" multiple style="display: none;" onchange="handleAdditionalImages(this)" capture="camera">
-                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="selectAdditionalFromGallery()">
-                                        <span class="desktop-text">📁 파일 선택</span>
-                                        <span class="mobile-text">📁 앨범에서 선택</span>
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-secondary camera-btn" onclick="selectAdditionalFromCamera()">
-                                        📷 카메라로 촬영
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="openImageGallery('additional')" style="background: #6c757d;">
-                                        <span class="desktop-text">🗂️ 서버 이미지</span>
-                                        <span class="mobile-text">🗂️ 서버 이미지</span>
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-primary" onclick="uploadAdditionalImages()" id="uploadAdditionalBtn" disabled>
-                                        ⬆️ 추가 이미지 업로드
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-remove" onclick="clearAllAdditionalImages()">
-                                        모두 제거
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="testAdditionalImages()" style="background: #28a745;">
-                                        테스트 이미지
-                                    </button>
-                                    <button type="button" class="admin-btn admin-btn-secondary" onclick="debugAdditionalImages()" style="background: #17a2b8;">
-                                        디버깅
-                                    </button>
-                                </div>
+                                
+                                <!-- 숨겨진 필드 (메인 이미지 URL) -->
+                                <input type="hidden" id="productImage" name="image_url" value="">
                             </div>
                         </div>
                     </div>
@@ -1531,27 +1503,12 @@
     </div>
 </div>
 
-<!-- 이미지 갤러리 모달 -->
-<div id="imageGalleryModal" class="modal" style="display: none;">
-    <div class="modal-content" style="max-width: 90%; max-height: 90%; overflow-y: auto;">
-        <div class="modal-header">
-            <h3>서버 이미지 갤러리</h3>
-            <span class="close" onclick="closeImageGallery()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <div style="margin-bottom: 20px;">
-                <button onclick="refreshImageGallery()" class="btn btn-secondary">새로고침</button>
-                <button onclick="applySelectedImages()" class="btn btn-primary" style="margin-left: 10px;">선택한 이미지 적용</button>
-                <span id="imageCount" style="margin-left: 10px; color: #666;"></span>
-            </div>
-            <div id="imageGalleryGrid" class="image-gallery-grid">
-                <!-- 이미지들이 여기에 동적으로 로드됩니다 -->
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
+        // 통합 이미지 관리 변수
+        let unifiedImages = [];
+        const maxUnifiedImages = 6;
+        
         // 상품 목록 로드 (전체 목록)
         function loadProducts() {
             // AJAX로 전체 상품 목록 가져오기
@@ -1598,64 +1555,17 @@
             document.getElementById('productForm').reset();
             document.getElementById('productId').value = '';
             
-            // 추가 이미지 배열 초기화
-            additionalImages = [];
-            renderAdditionalImages();
+            // 통합 이미지 배열 초기화
+            unifiedImages = [];
+            renderUnifiedImages();
             
-            // 이미지 미리보기 초기화
-            document.getElementById('previewImg').src = '../img/products/default.png';
+            // 통합 이미지 구조에서는 별도 미리보기 초기화 불필요
             
             document.getElementById('productModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
         
         // 테스트용 함수 - 추가 이미지 미리보기 테스트
-        function testAdditionalImages() {
-            console.log('테스트 이미지 추가 시작');
-            const testImages = [
-                {
-                    id: Date.now(),
-                    file: null,
-                    preview: '../img/products/default.png',
-                    url: 'default.png',
-                    uploaded: true
-                },
-                {
-                    id: Date.now() + 1,
-                    file: null,
-                    preview: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwN2JmZiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGVzdDwvdGV4dD48L3N2Zz4=',
-                    url: 'test.svg',
-                    uploaded: false
-                },
-                {
-                    id: Date.now() + 2,
-                    file: null,
-                    preview: 'nonexistent.jpg', // 존재하지 않는 이미지 테스트
-                    url: 'nonexistent.jpg',
-                    uploaded: true
-                }
-            ];
-            
-            additionalImages = testImages;
-            renderAdditionalImages();
-            console.log('테스트 이미지 추가 완료');
-        }
-        
-        // 추가 이미지 디버깅 함수
-        function debugAdditionalImages() {
-            console.log('=== 추가 이미지 디버깅 정보 ===');
-            console.log('추가 이미지 개수:', additionalImages.length);
-            additionalImages.forEach((img, index) => {
-                console.log(`이미지 ${index + 1}:`, {
-                    id: img.id,
-                    preview: img.preview,
-                    url: img.url,
-                    uploaded: img.uploaded,
-                    file: img.file ? img.file.name : '없음'
-                });
-            });
-            console.log('===============================');
-        }
         
         // 이미지 로드 에러 핸들링 함수
         function handleImageLoadError(imgElement, originalSrc, imageId) {
@@ -1680,7 +1590,7 @@
                 }
                 
                 const altPath = alternatives[currentIndex];
-                console.log(`대체 경로 ${currentIndex + 1} 시도:`, altPath);
+                console.log('대체 경로 ' + (currentIndex + 1) + ' 시도:', altPath);
                 
                 const testImg = new Image();
                 testImg.onload = function() {
@@ -1717,10 +1627,10 @@
                 alternatives.forEach((alt, index) => {
                     const testImg = new Image();
                     testImg.onload = function() {
-                        console.log(`✅ 대체 경로 ${index + 1} 성공:`, alt);
+                        console.log('✅ 대체 경로 ' + (index + 1) + ' 성공:', alt);
                     };
                     testImg.onerror = function() {
-                        console.log(`❌ 대체 경로 ${index + 1} 실패:`, alt);
+                        console.log('❌ 대체 경로 ' + (index + 1) + ' 실패:', alt);
                     };
                     testImg.src = alt;
                 });
@@ -1728,176 +1638,16 @@
             img.src = imagePath;
         }
         
-        // 이미지 갤러리 관련 변수
-        let currentImageType = ''; // 'main' 또는 'additional'
-        let selectedGalleryImages = new Set();
         
-        // 이미지 갤러리 열기
-        function openImageGallery(type) {
-            currentImageType = type;
-            selectedGalleryImages.clear();
-            loadImageGallery();
-            document.getElementById('imageGalleryModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
         
-        // 이미지 갤러리 닫기
-        function closeImageGallery() {
-            document.getElementById('imageGalleryModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            selectedGalleryImages.clear();
-        }
         
-        // 이미지 갤러리 로드
-        async function loadImageGallery() {
-            try {
-                const response = await fetch('getImageList.jsp');
-                const data = await response.json();
-                
-                if (data.success) {
-                    renderImageGallery(data.images);
-                    document.getElementById('imageCount').textContent = `총 ${data.total}개의 이미지`;
-                } else {
-                    console.error('이미지 목록 로드 실패:', data.error);
-                    alert('이미지 목록을 불러오는데 실패했습니다.');
-                }
-            } catch (error) {
-                console.error('이미지 갤러리 로드 오류:', error);
-                alert('이미지 목록을 불러오는데 실패했습니다.');
-            }
-        }
-        
-        // 이미지 갤러리 새로고침
-        function refreshImageGallery() {
-            loadImageGallery();
-        }
-        
-        // 이미지 갤러리 렌더링
-        function renderImageGallery(images) {
-            const container = document.getElementById('imageGalleryGrid');
-            container.innerHTML = '';
-            
-            if (images.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">저장된 이미지가 없습니다.</p>';
-                return;
-            }
-            
-            images.forEach((imageName, index) => {
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'gallery-image-item';
-                imageDiv.dataset.imageName = imageName;
-                
-                const imageUrl = '../img/products/' + imageName;
-                
-                imageDiv.innerHTML = `
-                    <div class="gallery-image-preview">
-                        <img src="${imageUrl}" alt="${imageName}" 
-                             onerror="this.src='../img/products/default.png'">
-                    </div>
-                    <div class="gallery-image-info">
-                        <div class="gallery-image-name">${imageName}</div>
-                    </div>
-                    <div class="gallery-image-actions">
-                        <button class="gallery-action-btn gallery-select-btn" 
-                                onclick="toggleImageSelection('${imageName}')" 
-                                title="선택/해제">✓</button>
-                    </div>
-                `;
-                
-                container.appendChild(imageDiv);
-            });
-        }
-        
-        // 이미지 선택 토글
-        function toggleImageSelection(imageName) {
-            const imageItem = document.querySelector(`[data-image-name="${imageName}"]`);
-            const selectBtn = imageItem.querySelector('.gallery-select-btn');
-            
-            if (selectedGalleryImages.has(imageName)) {
-                // 선택 해제
-                selectedGalleryImages.delete(imageName);
-                imageItem.classList.remove('selected');
-                selectBtn.textContent = '✓';
-                selectBtn.classList.remove('selected');
-            } else {
-                // 선택 추가
-                if (currentImageType === 'main') {
-                    // 메인 이미지는 1개만 선택 가능
-                    selectedGalleryImages.clear();
-                    // 모든 선택 해제
-                    document.querySelectorAll('.gallery-image-item').forEach(item => {
-                        item.classList.remove('selected');
-                        item.querySelector('.gallery-select-btn').classList.remove('selected');
-                    });
-                } else if (currentImageType === 'additional') {
-                    // 추가 이미지는 최대 5개
-                    if (selectedGalleryImages.size >= 5) {
-                        alert('최대 5개의 이미지만 선택할 수 있습니다.');
-                        return;
-                    }
-                }
-                
-                selectedGalleryImages.add(imageName);
-                imageItem.classList.add('selected');
-                selectBtn.textContent = '✕';
-                selectBtn.classList.add('selected');
-            }
-        }
-        
-        // 선택된 이미지 적용
-        function applySelectedImages() {
-            if (selectedGalleryImages.size === 0) {
-                alert('이미지를 선택해주세요.');
-                return;
-            }
-            
-            if (currentImageType === 'main') {
-                // 메인 이미지 적용
-                const imageName = Array.from(selectedGalleryImages)[0];
-                document.getElementById('productImage').value = 'img/products/' + imageName;
-                document.getElementById('previewImg').src = '../img/products/' + imageName;
-                closeImageGallery();
-            } else if (currentImageType === 'additional') {
-                // 추가 이미지 적용
-                const imageNames = Array.from(selectedGalleryImages);
-                
-                // 최대 개수 확인
-                if (additionalImages.length + imageNames.length > maxAdditionalImages) {
-                    alert(`최대 ${maxAdditionalImages}개의 추가 이미지만 업로드할 수 있습니다.`);
-                    return;
-                }
-                
-                imageNames.forEach((imageName, index) => {
-                    // 이미지 경로 정규화
-                    let imagePath = imageName;
-                    if (imagePath && !imagePath.includes('img/products/')) {
-                        imagePath = '../img/products/' + imagePath;
-                    }
-                    
-                    const imageData = {
-                        id: Date.now() + index,
-                        file: null,
-                        preview: imagePath,
-                        url: imageName, // 원본 파일명 유지
-                        uploaded: true // 서버에 이미 존재
-                    };
-                    
-                    console.log('갤러리에서 선택한 이미지:', {
-                        원본파일명: imageName,
-                        처리된경로: imagePath
-                    });
-                    
-                    additionalImages.push(imageData);
-                });
-                
-                renderAdditionalImages();
-                closeImageGallery();
-            }
-        }
         
         // 상품 수정
         function editProduct(productId) {
             console.log('editProduct 함수 호출됨, productId:', productId);
+            
+            // 통합 이미지 배열 초기화
+            unifiedImages = [];
             
             // 모달 요소 존재 확인
             const modal = document.getElementById('productModal');
@@ -1962,12 +1712,24 @@
                         productImageField.value = product.image_url || '';
                         productActiveField.checked = product.is_active === true || product.is_active === 'true';
                         
-                        // 이미지 미리보기 설정
-                        const previewImg = document.getElementById('previewImg');
+                        // 통합 이미지 구조에서는 별도 미리보기 설정 불필요
+                        
+                        // 메인 이미지를 통합 이미지 배열에 추가
                         if (product.image_url && product.image_url !== 'img/products/default.png') {
-                            previewImg.src = '../' + product.image_url;
-                        } else {
-                            previewImg.src = '../img/products/default.png';
+                            let mainImagePath = product.image_url;
+                            if (!mainImagePath.startsWith('http') && !mainImagePath.startsWith('/') && !mainImagePath.startsWith('../') && !mainImagePath.startsWith('data:')) {
+                                if (!mainImagePath.includes('img/products/')) {
+                                    mainImagePath = '../img/products/' + mainImagePath;
+                                }
+                            }
+                            
+                            unifiedImages.push({
+                                id: Date.now() + Math.random(),
+                                file: null,
+                                preview: mainImagePath,
+                                url: mainImagePath,
+                                uploaded: true
+                            });
                         }
                         
                         // 추가 이미지 처리
@@ -1983,8 +1745,10 @@
                                 }
                                 
                                 console.log('파싱된 추가 이미지 데이터:', detailImages);
+                                // 추가 이미지들을 통합 이미지 배열에 추가 (메인 이미지는 이미 추가됨)
+                                
                                 if (Array.isArray(detailImages) && detailImages.length > 0) {
-                                    additionalImages = detailImages.map((img, index) => {
+                                    detailImages.forEach((img, index) => {
                                         // 이미지 경로 정규화
                                         let imagePath = img;
                                         
@@ -2001,43 +1765,40 @@
                                             imagePath = '../img/products/default.png';
                                         }
                                         
-                                        console.log(`이미지 ${index + 1} 경로 처리:`, {
+                                        console.log('이미지 ' + (index + 1) + ' 경로 처리:', {
                                             원본: img,
                                             처리됨: imagePath
                                         });
                                         
-                                        return {
-                                            id: Date.now() + index,
+                                        // 통합 이미지 배열에 추가
+                                        unifiedImages.push({
+                                            id: Date.now() + Math.random() + index,
                                             file: null, // 기존 이미지는 파일 객체가 없음
                                             preview: imagePath,
-                                            url: img, // 원본 파일명 유지
+                                            url: imagePath, // 처리된 경로 사용
                                             uploaded: true // 이미 업로드된 상태
-                                        };
-                                    });
-                                    console.log('생성된 추가 이미지 배열:', additionalImages);
-                                    
-                                    // 각 이미지 경로 테스트
-                                    additionalImages.forEach((img, index) => {
-                                        console.log(`이미지 ${index + 1} 경로 테스트:`, img.preview);
-                                        checkImagePath(img.preview);
+                                        });
                                     });
                                     
-                                    renderAdditionalImages();
+                                    console.log('통합 이미지 배열로 로드 완료:', unifiedImages);
+                                    
+                                    // 통합 이미지 미리보기 렌더링
+                                    renderUnifiedImages();
                                 } else {
                                     console.log('추가 이미지 배열이 비어있음');
-                                    additionalImages = [];
-                                    renderAdditionalImages();
+                                    unifiedImages = [];
+                                    renderUnifiedImages();
                                 }
                             } catch (e) {
                                 console.error('추가 이미지 파싱 오류:', e);
                                 console.error('파싱할 데이터:', product.detail_images);
-                                additionalImages = [];
-                                renderAdditionalImages();
+                                unifiedImages = [];
+                                renderUnifiedImages();
                             }
                         } else {
                             console.log('추가 이미지 데이터 없음');
-                            additionalImages = [];
-                            renderAdditionalImages();
+                            unifiedImages = [];
+                            renderUnifiedImages();
                         }
                         
                         console.log('모달 표시 중...');
@@ -2070,77 +1831,6 @@
             }
         }
         
-        // 상품 저장
-        function saveProduct() {
-            const form = document.getElementById('productForm');
-            const productId = document.getElementById('productId').value;
-            const url = productId ? 'updateProduct.jsp' : 'addProduct.jsp';
-            
-            // 클라이언트 측 유효성 검사
-            const price = document.getElementById('productPrice').value;
-            const stockQuantity = document.getElementById('productStock').value;
-            
-            if (!price || !stockQuantity) {
-                alert('가격과 재고 수량을 입력해주세요.');
-                return;
-            }
-            
-            if (!/^\d+$/.test(price) || !/^\d+$/.test(stockQuantity)) {
-                alert('가격과 재고 수량은 숫자만 입력해주세요.');
-                return;
-            }
-            
-            if (parseInt(price) < 0 || parseInt(stockQuantity) < 0) {
-                alert('가격과 재고 수량은 0 이상이어야 합니다.');
-                return;
-            }
-            
-            // FormData 대신 URLSearchParams 사용
-            const formData = new URLSearchParams();
-            formData.append('id', document.getElementById('productId').value);
-            formData.append('name', document.getElementById('productName').value);
-            formData.append('description', document.getElementById('productDescription').value);
-            formData.append('price', document.getElementById('productPrice').value);
-            formData.append('stock_quantity', document.getElementById('productStock').value);
-            formData.append('category_id', document.getElementById('productCategory').value);
-            formData.append('subcategory_id', document.getElementById('productSubcategory').value);
-            formData.append('image_url', document.getElementById('productImage').value);
-            formData.append('is_active', document.getElementById('productActive').checked ? 'on' : 'off');
-            
-            // 디버깅: 전송할 데이터 확인
-            console.log('전송할 데이터:');
-            for (let [key, value] of formData.entries()) {
-                console.log(key + ': ' + value);
-            }
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString()
-            })
-            .then(response => {
-                const status = response.status;
-                return response.text().then(text => ({ status, text }));
-            })
-            .then(data => {
-                console.log('응답 상태:', data.status);
-                console.log('응답 내용:', data.text);
-                
-                if (data.status === 200 && data.text.trim() === 'success') {
-                    alert(productId ? '상품이 수정되었습니다.' : '상품이 추가되었습니다.');
-                    closeProductModal();
-                    location.reload();
-                } else {
-                    alert('상품 저장 중 오류가 발생했습니다.\n상태: ' + data.status + '\n오류: ' + data.text);
-                }
-            })
-            .catch(error => {
-                console.error('저장 오류:', error);
-                alert('상품 저장 중 오류가 발생했습니다: ' + error.message);
-            });
-        }
         
         // 상품 삭제
         function deleteProduct(productId) {
@@ -2199,6 +1889,7 @@
             }
         });
         
+        
         // 엔터 키로 검색
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -2229,41 +1920,11 @@
         // 테스트용 버튼 추가
 
         
-        // 이미지 파일 선택 이벤트 (앨범에서 선택)
-        document.getElementById('imageFile').addEventListener('change', function(e) {
-            handleImageFileSelect(e);
-        });
+        // 통합 이미지 구조에서는 별도의 이벤트 리스너가 필요하지 않음
         
-        // 이미지 파일 선택 이벤트 (카메라로 촬영)
-        document.getElementById('imageFileCamera').addEventListener('change', function(e) {
-            handleImageFileSelect(e);
-        });
+        // 통합 이미지 구조에서는 handleImageFileSelect 함수가 필요하지 않음
         
-        // 공통 이미지 파일 선택 처리 함수
-        function handleImageFileSelect(e) {
-            const file = e.target.files[0];
-            if (file) {
-                // 파일 미리보기
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                
-                // 메인 이미지 업로드 버튼 활성화
-                document.getElementById('uploadMainBtn').disabled = false;
-            }
-        }
-        
-        // 이미지 제거 함수
-        function clearImage() {
-            document.getElementById('imageFile').value = '';
-            document.getElementById('imageFileCamera').value = '';
-            document.getElementById('previewImg').src = '../img/products/default.png';
-            document.getElementById('productImage').value = '';
-            document.getElementById('uploadBtn').disabled = true;
-            document.getElementById('uploadProgress').style.display = 'none';
-        }
+        // 통합 이미지 구조에서는 clearImage 함수가 필요하지 않음 (clearAllUnifiedImages 사용)
         
         // 카테고리 변경 시 하위 카테고리 업데이트
         function updateSubcategory() {
@@ -2296,426 +1957,209 @@
             }
         }
         
-        // 이미지 선택 함수들 (카메라/앨범 구분)
-        function selectFromGallery() {
+        // 통합 이미지 선택 함수들
+        function selectUnifiedFromGallery() {
             // 앨범 선택 - capture 속성 없음
-            const fileInput = document.getElementById('imageFile');
+            const fileInput = document.getElementById('unifiedImageFile');
             fileInput.click();
         }
         
-        function selectFromCamera() {
+        function selectUnifiedFromCamera() {
             // 카메라 선택 - capture="camera"
-            const fileInput = document.getElementById('imageFileCamera');
+            const fileInput = document.getElementById('unifiedImageFileCamera');
             fileInput.click();
         }
         
-        function selectAdditionalFromGallery() {
-            // 앨범 선택 - capture 속성 없음
-            const fileInput = document.getElementById('additionalImageFile');
-            fileInput.click();
-        }
-        
-        function selectAdditionalFromCamera() {
-            // 카메라 선택 - capture="camera"
-            const fileInput = document.getElementById('additionalImageFileCamera');
-            fileInput.click();
-        }
-        
-        // 메인 이미지 업로드 함수
-        async function uploadMainImage() {
-            const fileInput = document.getElementById('imageFile');
-            const fileInputCamera = document.getElementById('imageFileCamera');
-            let file = fileInput.files[0] || fileInputCamera.files[0];
+        // 통합 이미지 처리 함수
+        function handleUnifiedImages(input) {
+            const files = Array.from(input.files);
+            const previewList = document.getElementById('unifiedImagePreviewList');
             
-            if (!file) {
-                alert('업로드할 파일을 선택해주세요.');
-                return;
+            // 기존 이미지와 새로 선택된 이미지를 합쳐서 최대 개수 제한
+            const currentImageCount = unifiedImages.length;
+            if (currentImageCount + files.length > maxUnifiedImages) {
+                alert('최대 ' + maxUnifiedImages + '개의 이미지만 선택할 수 있습니다.');
+                // 초과된 파일은 무시
+                files.splice(maxUnifiedImages - currentImageCount);
             }
             
-            // 모바일에서 파일 크기가 0인 경우 체크
-            if (file.size === 0) {
-                alert('파일 크기가 0입니다. 파일을 다시 선택해주세요.');
-                return;
-            }
-            
-            // 모바일에서 파일 타입 재확인
-            if (!file.type.startsWith('image/')) {
-                alert('이미지 파일만 업로드 가능합니다.');
-                return;
-            }
-            
-            // 파일 크기 확인 (10MB 제한)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('파일 크기가 너무 큽니다. (최대 10MB)');
-                return;
-            }
-            
-            // 업로드 진행률 표시
-            const progressDiv = document.getElementById('uploadProgress');
-            const progressFill = document.getElementById('progressFill');
-            const uploadStatus = document.getElementById('uploadStatus');
-            const uploadBtn = document.getElementById('uploadMainBtn');
-            
-            progressDiv.style.display = 'block';
-            uploadBtn.disabled = true;
-            uploadStatus.textContent = '메인 이미지 업로드 중...';
-            
-            try {
-                // 메인 이미지 업로드
-                const formData = new FormData();
-                formData.append('image', file);
-                
-                // 모바일에서 타임아웃 설정
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30초 타임아웃
-                
-                const response = await fetch('uploadImage.jsp', {
-                    method: 'POST',
-                    body: formData,
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`업로드 실패 (${response.status}): ${errorText}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // 메인 이미지 업로드 성공
-                    document.getElementById('productImage').value = data.url;
-                    progressFill.style.width = '100%';
-                    uploadStatus.textContent = '메인 이미지 업로드 완료!';
-                    
-                    console.log('업로드 성공:', data);
-                    
-                    // 파일이 실제로 존재하는지 확인
-                    const testImg = new Image();
-                    testImg.onload = function() {
-                        alert('메인 이미지가 성공적으로 업로드되었습니다!');
-                        
-                        // 2초 후 진행률 숨기기
-                        setTimeout(() => {
-                            progressDiv.style.display = 'none';
-                            uploadBtn.disabled = false;
-                        }, 2000);
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageData = {
+                            id: Date.now() + Math.random(), // 고유 ID
+                            file: file,
+                            preview: e.target.result,
+                            uploaded: false,
+                            url: null
+                        };
+                        unifiedImages.push(imageData);
+                        renderUnifiedImages();
                     };
-                    testImg.onerror = function() {
-                        console.error('업로드된 이미지를 불러올 수 없습니다:', data.url);
-                        alert('이미지 업로드는 완료되었지만 파일을 확인할 수 없습니다. 서버 로그를 확인해주세요.');
-                        
-                        setTimeout(() => {
-                            progressDiv.style.display = 'none';
-                            uploadBtn.disabled = false;
-                        }, 2000);
-                    };
-                    testImg.src = '../img/products/' + data.url;
-                    
-                } else {
-                    throw new Error(data.error || '메인 이미지 업로드 실패');
+                    reader.readAsDataURL(file);
                 }
-                
-            } catch (error) {
-                progressDiv.style.display = 'none';
-                uploadBtn.disabled = false;
-                uploadStatus.textContent = '업로드 실패';
-                
-                console.error('Upload error:', error);
-                
-                // 모바일에서 자주 발생하는 에러 메시지 개선
-                let errorMessage = '업로드 중 오류가 발생했습니다.';
-                if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-                    errorMessage = '네트워크 연결을 확인해주세요.';
-                } else if (error.message.includes('413')) {
-                    errorMessage = '파일 크기가 너무 큽니다.';
-                } else if (error.message.includes('415')) {
-                    errorMessage = '지원하지 않는 파일 형식입니다.';
-                } else {
-                    errorMessage = '업로드 중 오류가 발생했습니다: ' + error.message;
+            });
+            input.value = ''; // 파일 입력 초기화
+            document.getElementById('uploadUnifiedBtn').disabled = unifiedImages.length === 0;
+        }
+        
+        // 통합 이미지 렌더링 함수
+        function renderUnifiedImages() {
+            const previewList = document.getElementById('unifiedImagePreviewList');
+            previewList.innerHTML = ''; // 기존 미리보기 초기화
+            
+            if (unifiedImages.length === 0) {
+                document.getElementById('uploadUnifiedBtn').disabled = true;
+                return;
+            }
+            
+            unifiedImages.forEach((image, index) => {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'unified-image-preview-item';
+                previewItem.innerHTML = 
+                    '<img src="' + image.preview + '" alt="미리보기 ' + (index + 1) + '">' +
+                    '<button type="button" class="remove-btn" onclick="removeUnifiedImage(' + image.id + ')">×</button>' +
+                    (index === 0 ? '<div class="main-badge">메인</div>' : '');
+                previewList.appendChild(previewItem);
+            });
+            document.getElementById('uploadUnifiedBtn').disabled = unifiedImages.length === 0;
+        }
+        
+        // 통합 이미지 제거 함수
+        function removeUnifiedImage(imageId) {
+            // unifiedImages 배열에서 해당 이미지 제거
+            unifiedImages = unifiedImages.filter(img => img.id !== imageId);
+            
+            // 미리보기 다시 렌더링
+            renderUnifiedImages();
+        }
+        
+        // 모든 통합 이미지 제거
+        function clearAllUnifiedImages() {
+            if (unifiedImages.length > 0) {
+                if (confirm('모든 이미지를 제거하시겠습니까?')) {
+                    unifiedImages = [];
+                    document.getElementById('unifiedImageFile').value = '';
+                    document.getElementById('unifiedImageFileCamera').value = '';
+                    document.getElementById('productImage').value = ''; // 메인 이미지 URL도 초기화
+                    renderUnifiedImages();
+                    document.getElementById('unifiedUploadProgress').style.display = 'none';
                 }
-                
-                alert(errorMessage);
             }
         }
         
-        // 추가 이미지 관리 변수
-        let additionalImages = [];
-        const maxAdditionalImages = 5;
         
-        // 추가 이미지 처리 함수 (모바일 호환성 개선)
-        function handleAdditionalImages(input) {
-            try {
-                const files = Array.from(input.files);
-                
-                // 최대 개수 확인
-                if (additionalImages.length + files.length > maxAdditionalImages) {
-                    alert(`최대 ${maxAdditionalImages}개의 추가 이미지만 업로드할 수 있습니다.`);
+        // 통합 이미지 업로드 함수 (완성)
+        async function uploadUnifiedImages() {
+            const filesToUpload = unifiedImages.filter(img => !img.uploaded).map(img => img.file);
+            
+            if (filesToUpload.length === 0) {
+                alert('업로드할 이미지가 없습니다.');
+                return;
+            }
+            
+            // 파일 검증
+            for (let file of filesToUpload) {
+                if (file.size === 0) {
+                    alert('파일 크기가 0입니다. 파일을 다시 선택해주세요.');
                     return;
                 }
                 
-                // 파일 크기 확인 (모바일에서 큰 이미지 처리)
-                const maxFileSize = 5 * 1024 * 1024; // 5MB
-                const validFiles = files.filter(file => {
-                    if (!file.type.startsWith('image/')) {
-                        alert(`${file.name}은(는) 이미지 파일이 아닙니다.`);
-                        return false;
-                    }
-                    if (file.size > maxFileSize) {
-                        alert(`${file.name}은(는) 5MB를 초과합니다.`);
-                        return false;
-                    }
-                    return true;
-                });
-                
-                validFiles.forEach(file => {
-                    // 모바일에서 파일 크기가 0인 경우 체크
-                    if (file.size === 0) {
-                        alert(`${file.name}의 파일 크기가 0입니다. 파일을 다시 선택해주세요.`);
-                        return;
-                    }
-                    
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        try {
-                            // 이미지 경로 정규화
-                            let previewPath = e.target.result;
-                            console.log('추가 이미지 미리보기 경로:', previewPath);
-                            
-                            const imageData = {
-                                id: Date.now() + Math.random(),
-                                file: file,
-                                preview: previewPath,
-                                uploaded: false,
-                                url: null
-                            };
-                        
-                            additionalImages.push(imageData);
-                            renderAdditionalImages();
-                            
-                            // 추가 이미지 업로드 버튼 활성화
-                            const uploadBtn = document.getElementById('uploadAdditionalBtn');
-                            if (uploadBtn) {
-                                uploadBtn.disabled = false;
-                            }
-                        } catch (error) {
-                            console.error('이미지 데이터 생성 오류:', error);
-                            alert('이미지 처리 중 오류가 발생했습니다: ' + file.name);
-                        }
-                    };
-                    
-                    reader.onerror = function() {
-                        console.error('파일 읽기 오류:', file.name);
-                        alert(`${file.name} 파일을 읽는 중 오류가 발생했습니다.`);
-                    };
-                    
-                    reader.readAsDataURL(file);
-                });
-                
-                // 파일 입력 초기화
-                input.value = '';
-            } catch (error) {
-                console.error('파일 처리 오류:', error);
-                alert('파일 처리 중 오류가 발생했습니다.');
-            }
-        }
-        
-        // 추가 이미지 렌더링 함수
-        function renderAdditionalImages() {
-            console.log('renderAdditionalImages 호출됨, 이미지 개수:', additionalImages.length);
-            const container = document.getElementById('additionalImagesList');
-            
-            if (!container) {
-                console.error('additionalImagesList 컨테이너를 찾을 수 없습니다!');
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            if (additionalImages.length === 0) {
-                console.log('추가 이미지가 없어서 컨테이너를 비웠습니다.');
-                return;
-            }
-            
-            additionalImages.forEach((image, index) => {
-                console.log(`이미지 ${index + 1} 렌더링:`, {
-                    id: image.id,
-                    preview: image.preview,
-                    uploaded: image.uploaded,
-                    fileName: image.file ? image.file.name : '기존 이미지'
-                });
-                
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'additional-image-item';
-                
-                // 이미지 경로 확인 및 수정
-                let imageSrc = image.preview;
-                if (!imageSrc) {
-                    console.warn(`이미지 ${index + 1}의 preview가 없습니다.`);
-                    imageSrc = '../img/products/default.png';
+                if (!file.type.startsWith('image/')) {
+                    alert('이미지 파일만 업로드 가능합니다.');
+                    return;
                 }
                 
-                // 이미지 경로 정규화
-                if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('/') && !imageSrc.startsWith('../') && !imageSrc.startsWith('data:')) {
-                    // 파일명만 있는 경우 경로 추가
-                    if (!imageSrc.includes('img/products/')) {
-                        imageSrc = '../img/products/' + imageSrc;
-                    }
-                }
-                
-                // 이미지 경로 디버깅
-                console.log(`이미지 ${index + 1} 렌더링 경로:`, imageSrc);
-                
-                imageDiv.innerHTML = `
-                    <div class="additional-image-preview">
-                        <img src="${imageSrc}" alt="추가 이미지 ${index + 1}" 
-                             onload="console.log('✅ 이미지 로드 성공:', this.src)"
-                             onerror="handleImageLoadError(this, '${imageSrc}', ${image.id})">
-                        <div class="additional-image-overlay" onclick="removeAdditionalImage(${image.id})" title="이미지 제거">×</div>
-                    </div>
-                    <div class="additional-image-info">
-                        <span class="image-name">${image.file ? image.file.name : '기존 이미지'}</span>
-                        <span class="image-status ${image.uploaded ? 'uploaded' : 'pending'}">
-                            ${image.uploaded ? '업로드됨' : '대기중'}
-                        </span>
-                    </div>
-                `;
-                container.appendChild(imageDiv);
-            });
-            
-            console.log('추가 이미지 렌더링 완료');
-        }
-        
-        // 추가 이미지 제거 함수
-        function removeAdditionalImage(imageId) {
-            additionalImages = additionalImages.filter(img => img.id !== imageId);
-            renderAdditionalImages();
-        }
-        
-        // 모든 추가 이미지 제거 함수
-        function clearAllAdditionalImages() {
-            if (additionalImages.length > 0) {
-                if (confirm('모든 추가 이미지를 제거하시겠습니까?')) {
-                    additionalImages = [];
-                    document.getElementById('additionalImageFile').value = '';
-                    document.getElementById('additionalImageFileCamera').value = '';
-                    renderAdditionalImages();
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('파일 크기가 너무 큽니다. (최대 10MB)');
+                    return;
                 }
             }
-        }
-        
-        // 추가 이미지 업로드 함수 (UI 버튼용)
-        async function uploadAdditionalImages() {
-            const pendingImages = additionalImages.filter(img => !img.uploaded);
             
-            if (pendingImages.length === 0) {
-                alert('업로드할 추가 이미지가 없습니다.');
-                return;
-            }
+            // 업로드 진행률 표시
+            const progressDiv = document.getElementById('unifiedUploadProgress');
+            const progressFill = document.getElementById('unifiedProgressFill');
+            const uploadStatus = document.getElementById('unifiedUploadStatus');
+            const uploadBtn = document.getElementById('uploadUnifiedBtn');
             
-            const uploadBtn = document.getElementById('uploadAdditionalBtn');
+            progressDiv.style.display = 'block';
             uploadBtn.disabled = true;
-            uploadBtn.textContent = '업로드 중...';
+            uploadStatus.textContent = '이미지 업로드 중...';
             
             try {
-                for (let i = 0; i < pendingImages.length; i++) {
-                    const image = pendingImages[i];
-                    try {
-                        const formData = new FormData();
-                        formData.append('image', image.file);
-                        
-                        const response = await fetch('uploadImage.jsp', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        }
-                        
-                        const result = await response.json();
-                        
-                        if (result.success) {
-                            image.uploaded = true;
-                            image.url = result.filename;
-                        } else {
-                            console.error('Upload failed for image:', image.file.name, result.error);
-                        }
-                    } catch (error) {
-                        console.error('Upload error for image:', image.file.name, error);
-                        
-                        // 모바일에서 자주 발생하는 에러 메시지 개선
-                        let errorMessage = '이미지 업로드 중 오류가 발생했습니다.';
-                        if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-                            errorMessage = '네트워크 연결을 확인해주세요.';
-                        } else if (error.message.includes('413')) {
-                            errorMessage = '파일 크기가 너무 큽니다.';
-                        } else if (error.message.includes('415')) {
-                            errorMessage = '지원하지 않는 파일 형식입니다.';
-                        }
-                        
-                        console.error(errorMessage + ' - ' + image.file.name);
-                    }
-                }
+                const uploadedUrls = [];
+                const totalFiles = filesToUpload.length;
                 
-                renderAdditionalImages();
-                alert('추가 이미지 업로드가 완료되었습니다!');
-                
-            } finally {
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '⬆️ 추가 이미지 업로드';
-            }
-            
-            return additionalImages.filter(img => img.uploaded).map(img => img.url);
-        }
-        
-        // 추가 이미지 업로드 함수 (상품 저장 시 사용)
-        async function uploadAdditionalImagesForSave() {
-            const pendingImages = additionalImages.filter(img => !img.uploaded);
-            
-            for (let image of pendingImages) {
-                try {
+                for (let i = 0; i < filesToUpload.length; i++) {
+                    const file = filesToUpload[i];
+                    const progress = ((i + 1) / totalFiles) * 100;
+                    
+                    uploadStatus.textContent = '이미지 ' + (i + 1) + '/' + totalFiles + ' 업로드 중...';
+                    progressFill.style.width = progress + '%';
+                    
                     const formData = new FormData();
-                    formData.append('image', image.file);
+                    formData.append('image', file);
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 30000);
                     
                     const response = await fetch('uploadImage.jsp', {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        signal: controller.signal
                     });
                     
+                    clearTimeout(timeoutId);
+                    
                     if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        const errorText = await response.text();
+                        throw new Error('업로드 실패 (' + response.status + '): ' + errorText);
                     }
                     
-                    const result = await response.json();
+                    const data = await response.json();
                     
-                    if (result.success) {
-                        image.uploaded = true;
-                        image.url = result.filename;
+                    if (data.success) {
+                        const uploadedImage = unifiedImages.find(img => img.file === file);
+                        if (uploadedImage) {
+                            uploadedImage.uploaded = true;
+                            uploadedImage.url = data.url;
+                        }
+                        uploadedUrls.push(data.url);
                     } else {
-                        console.error('Upload failed for image:', image.file.name, result.error);
+                        throw new Error(data.message || '업로드 실패');
                     }
-                } catch (error) {
-                    console.error('Upload error for image:', image.file.name, error);
-                    
-                    // 모바일에서 자주 발생하는 에러 메시지 개선
-                    let errorMessage = '이미지 업로드 중 오류가 발생했습니다.';
-                    if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-                        errorMessage = '네트워크 연결을 확인해주세요.';
-                    } else if (error.message.includes('413')) {
-                        errorMessage = '파일 크기가 너무 큽니다.';
-                    } else if (error.message.includes('415')) {
-                        errorMessage = '지원하지 않는 파일 형식입니다.';
-                    }
-                    
-                    console.error(errorMessage + ' - ' + image.file.name);
+                }
+                
+                // 첫 번째 이미지를 메인 이미지로 설정
+                if (uploadedUrls.length > 0) {
+                    document.getElementById('productImage').value = uploadedUrls[0];
+                }
+                
+                progressFill.style.width = '100%';
+                uploadStatus.textContent = uploadedUrls.length + '개 이미지 업로드 완료!';
+                
+                alert(uploadedUrls.length + '개의 이미지가 성공적으로 업로드되었습니다!');
+                
+                // 2초 후 진행률 숨기기
+                setTimeout(() => {
+                    progressDiv.style.display = 'none';
+                    uploadBtn.disabled = false;
+                }, 2000);
+                
+                renderUnifiedImages(); // 업로드 상태 반영
+                
+            } catch (error) {
+                console.error('업로드 오류:', error);
+                progressDiv.style.display = 'none';
+                uploadBtn.disabled = false;
+                
+                if (error.name === 'AbortError') {
+                    alert('업로드 시간이 초과되었습니다. 네트워크 연결을 확인해주세요.');
+                } else {
+                    alert('업로드 중 오류가 발생했습니다: ' + error.message);
                 }
             }
-            
-            renderAdditionalImages();
-            return additionalImages.filter(img => img.uploaded).map(img => img.url);
         }
         
         // 상품 저장 함수 수정 (추가 이미지 포함, 모바일 호환성 개선)
@@ -2757,14 +2201,7 @@
                     saveBtn.textContent = '저장 중...';
                 }
                 
-                // 추가 이미지 업로드
-                let additionalImageUrls = [];
-                try {
-                    additionalImageUrls = await uploadAdditionalImagesForSave();
-                } catch (error) {
-                    console.warn('추가 이미지 업로드 실패:', error);
-                    // 추가 이미지 업로드 실패해도 상품 저장은 계속 진행
-                }
+                // 통합 이미지 업로드는 별도로 처리됨
                 
                 // FormData 구성
                 const formData = new URLSearchParams();
@@ -2778,10 +2215,7 @@
                 formData.append('image_url', document.getElementById('productImage').value);
                 formData.append('is_active', document.getElementById('productActive').checked ? 'on' : 'off');
                 
-                // detail_images 컬럼에 추가 이미지 URL들을 JSON 형태로 전송
-                if (additionalImageUrls.length > 0) {
-                    formData.append('additional_images', JSON.stringify(additionalImageUrls));
-                }
+                // 통합 이미지 구조에서는 메인 이미지만 전송
                 
                 // 서버로 전송
                 const response = await fetch(url, {
